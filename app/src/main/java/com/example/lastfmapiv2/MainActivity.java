@@ -3,8 +3,6 @@ package com.example.lastfmapiv2;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,10 +33,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         btnSearch= findViewById(R.id.btnSearch);
         etInput = findViewById(R.id.etInput);
 
-        ViewDataBinding dataBinding = DataBindingUtil.setContentView(this,R.layout.activity_main);
         final ResultsAdapter resultsAdapter = new  ResultsAdapter();
 
         RecyclerView recyclerView = findViewById(R.id.rvResults);
@@ -47,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(resultsAdapter);
 
         appComponent.inject(this);
+
         final HomeViewModel homeViewModel = ViewModelProviders.of(this, homeViewModelFactory).get(HomeViewModel.class);
 
 

@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <data>
-        <variable
-            name="artists" type="com.example.lastfmapiv2.data.Artist"/>
-    </data>
+
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/cardView"
         android:layout_width="match_parent"
@@ -18,7 +15,6 @@
             android:orientation="vertical">
 
             <TextView
-                android:text="@{artists.name}"
                 android:id="@+id/tvName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

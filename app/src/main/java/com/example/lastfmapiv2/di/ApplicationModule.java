@@ -17,7 +17,7 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-private Application provideApplicationContext(){
+public Application provideApplicationContext(){
         return this.application;
     }
 
