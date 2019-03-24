@@ -1,7 +1,7 @@
 package com.example.lastfmapiv2;
 
 public class Constants {
-    public static final String BASE_URL = "http://ws.audioscrobbler.com/2.0/";
+    public static final String BASE_URL = "http://ws.audioscrobbler.com/";
     public static final String ENDPOINT = "2.0";
     public static final String API_KEY = "4d850c1e526fda81514ce4b96479be6d";
     public static final String METHOD = "artist.search";

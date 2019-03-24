@@ -10,17 +10,36 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.lastfmapiv2.Constants.BASE_URL;
 
 public class RemoteDataSource extends Observable implements DataSource {
-    private LastFMService lastFMService;
+    private final LastFMService lastFMService;
 
 
-    public RemoteDataSource(LastFMService lastFMService){
-        this.lastFMService = lastFMService;
+    public RemoteDataSource(){
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(20, TimeUnit.SECONDS)
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .build();
+
+        Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create());
+
+        Retrofit retrofit = retrofitBuilder.build();
+
+        lastFMService = retrofit.create(LastFMService.class);
     }
 
     @Override

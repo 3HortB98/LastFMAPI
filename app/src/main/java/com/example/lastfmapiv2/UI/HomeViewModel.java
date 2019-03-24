@@ -8,6 +8,9 @@ import android.arch.lifecycle.ViewModel;
 import com.example.lastfmapiv2.Constants;
 import com.example.lastfmapiv2.data.Artist;
 import com.example.lastfmapiv2.model.DataSource;
+import com.example.lastfmapiv2.model.LastFMRespository;
+import com.example.lastfmapiv2.model.LocalDataSource;
+import com.example.lastfmapiv2.model.RemoteDataSource;
 
 import java.util.List;
 import java.util.Observable;
@@ -16,21 +19,17 @@ import java.util.Observer;
 
 
 public class HomeViewModel extends ViewModel implements Observer {
-    private final MutableLiveData artistObservable;
+    private final MutableLiveData<List<Artist>> artistObservable = new MutableLiveData();
     private final DataSource repository;
-    private ResultsAdapter resultsAdapter;
-
-    public HomeViewModel(DataSource repository) {
-        this.repository = repository;
-        this.artistObservable = new MutableLiveData();
+    public HomeViewModel(){
+        repository = new LastFMRespository(new LocalDataSource(), new RemoteDataSource());
     }
 
-    public final LiveData getArtistObservable(){
+    public final LiveData<List<Artist>> getArtistObservable(){
         return artistObservable;
     }
 
     public final void getArtists(String artist){
-        resultsAdapter = new ResultsAdapter();
         repository.setObserver(this);
         repository.getArtist(Constants.METHOD,artist,Constants.API_KEY,Constants.FORMAT);
 
@@ -39,7 +38,7 @@ public class HomeViewModel extends ViewModel implements Observer {
     @Override
     public void update(Observable o, Object results) {
         List<Artist> artists = (List<Artist>) results;
-        artistObservable.setValue(results);
+        artistObservable.setValue(artists);
 
 
     }

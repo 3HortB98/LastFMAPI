@@ -1,9 +1,8 @@
 package com.example.lastfmapiv2;
 
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,20 +11,17 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.lastfmapiv2.UI.HomeViewModel;
-import com.example.lastfmapiv2.UI.HomeViewModelFactory;
 import com.example.lastfmapiv2.UI.ResultsAdapter;
-import com.example.lastfmapiv2.di.AppComponent;
+import com.example.lastfmapiv2.data.Artist;
 
-import javax.inject.Inject;
+import java.util.List;
 
-import dagger.internal.DaggerCollections;
+
 
 public class MainActivity extends AppCompatActivity {
 
-    @Inject
-    public HomeViewModelFactory homeViewModelFactory;
 
-    private AppComponent appComponent;
+
 
     Button btnSearch;
     EditText etInput;
@@ -44,10 +40,15 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(resultsAdapter);
 
-        appComponent.inject(this);
+        //appComponent.inject(this);
 
-        final HomeViewModel homeViewModel = ViewModelProviders.of(this, homeViewModelFactory).get(HomeViewModel.class);
-
+        final HomeViewModel homeViewModel = new HomeViewModel();
+        homeViewModel.getArtistObservable().observe(this, new Observer<List<Artist>>() {
+            @Override
+            public void onChanged(@Nullable List<Artist> artists) {
+                resultsAdapter.setData(artists);
+            }
+        });
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override

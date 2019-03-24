@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.itemViewHolder> {
-    private final List<Artist> artists = new ArrayList();
+    private final List<Artist> artists = new ArrayList<>();
 
     public void setData(List<Artist> newData){
         artists.clear();
@@ -31,7 +31,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.itemView
 
     @Override
     public void onBindViewHolder(@NonNull itemViewHolder itemViewHolder, int position) {
-itemViewHolder.tvName.setText(artists.get(position).getName());
+itemViewHolder.bind(artists.get(position));
     }
 
     @Override
