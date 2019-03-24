@@ -5,16 +5,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.lastfmapiv2.R;
 import com.example.lastfmapiv2.data.Artist;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.itemViewHolder> {
     private final List<Artist> artists = new ArrayList<>();
+
 
     public void setData(List<Artist> newData){
         artists.clear();
@@ -31,7 +35,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.itemView
 
     @Override
     public void onBindViewHolder(@NonNull itemViewHolder itemViewHolder, int position) {
-itemViewHolder.bind(artists.get(position));
+        itemViewHolder.bind(artists.get(position));
     }
 
     @Override
@@ -41,11 +45,15 @@ itemViewHolder.bind(artists.get(position));
 
     static class itemViewHolder extends RecyclerView.ViewHolder {
             TextView tvName;
+            ImageView imageView;
         public itemViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvName);
+            imageView = itemView.findViewById(R.id.imageView);
         }
         public void bind( Artist artist){
+            String image = artist.getImage().get(1).getText();
+            Picasso.get().load(image).into(imageView);
             tvName.setText(artist.getName());
         }
 
