@@ -40,6 +40,5 @@ public class HomeViewModel extends ViewModel implements Observer {
         List<Artist> artists = (List<Artist>) results;
         artistObservable.setValue(artists);
 
-
     }
 }

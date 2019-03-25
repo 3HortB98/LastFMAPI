@@ -1,6 +1,5 @@
 package com.example.lastfmapiv2;
 
-import android.app.SearchManager;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,11 +16,12 @@ import com.example.lastfmapiv2.UI.HomeViewModel;
 import com.example.lastfmapiv2.UI.ResultsAdapter;
 import com.example.lastfmapiv2.data.Artist;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ResultsAdapter.OnItemSelectedListener {
 
 ProgressBar progressBar;
     Button btnSearch;
@@ -35,7 +35,7 @@ ProgressBar progressBar;
         etInput = findViewById(R.id.etInput);
         progressBar = findViewById(R.id.pbProgress);
 
-        final ResultsAdapter resultsAdapter = new  ResultsAdapter();
+        final ResultsAdapter resultsAdapter = new  ResultsAdapter(this);
 
         RecyclerView recyclerView = findViewById(R.id.rvResults);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -58,13 +58,28 @@ ProgressBar progressBar;
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
                 homeViewModel.getArtists(etInput.getText().toString());
-                onSearchRequested();
+
 
             }
         });
 
-
-
     }
 
+    @Override
+    public void onItemSelected(Artist artist) {
+        String name =artist.getName();
+        String listeners =artist.getListeners();
+        String mbid= artist.getMbid();
+        String url= artist.getUrl();
+        String streamable= artist.getStreamable();
+
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra(ArtistFragment.ARTIST_NAME, name);
+        intent.putExtra(ArtistFragment.ARTIST_LISTENER,listeners);
+        intent.putExtra(ArtistFragment.ARTIST_MBID,mbid);
+        intent.putExtra(ArtistFragment.ARTIST_URL,url);
+        intent.putExtra(ArtistFragment.ARTIST_STREAMABLE,streamable);
+        startActivity(intent);
+
+    }
 }

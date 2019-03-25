@@ -18,6 +18,10 @@
             </intent-filter>
 
         </activity>
+        <activity android:name=".DetailActivity"
+android:parentActivityName=".MainActivity"
+
+            />
     </application>
 
 </manifest>

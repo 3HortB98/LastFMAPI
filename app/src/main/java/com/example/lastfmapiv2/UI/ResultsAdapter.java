@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,8 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.itemViewHolder> {
-    private final List<Artist> artists = new ArrayList<>();
+    private final List<Artist> artists;
+private final OnItemSelectedListener listener;
 
+    public ResultsAdapter(OnItemSelectedListener listener) {
+        this.listener = listener;
+        artists = new ArrayList<>();
+    }
 
     public void setData(List<Artist> newData){
         artists.clear();
@@ -34,8 +38,14 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.itemView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull itemViewHolder itemViewHolder, int position) {
+    public void onBindViewHolder(@NonNull itemViewHolder itemViewHolder, final int position) {
         itemViewHolder.bind(artists.get(position));
+        itemViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemSelected(artists.get(position));
+            }
+        });
     }
 
     @Override
@@ -62,5 +72,8 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.itemView
             tvName.setText(artist.getName());
         }
 
+    }
+    public interface OnItemSelectedListener {
+        void onItemSelected(Artist artist);
     }
 }
