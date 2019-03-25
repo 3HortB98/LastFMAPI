@@ -52,8 +52,13 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.itemView
             imageView = itemView.findViewById(R.id.imageView);
         }
         public void bind( Artist artist){
-            String image = artist.getImage().get(1).getText();
-            Picasso.get().load(image).into(imageView);
+            if(artist.getImage().get(0).getText().isEmpty()){
+
+            }else{
+                String image = artist.getImage().get(0).getText();
+                Picasso.get().load(image).into(imageView);
+            }
+
             tvName.setText(artist.getName());
         }
 
